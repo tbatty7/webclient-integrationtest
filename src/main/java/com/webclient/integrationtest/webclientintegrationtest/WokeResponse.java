@@ -15,4 +15,5 @@ public class WokeResponse {
     private String alarm2;
     private String alarm3;
     private String identificationNumber;
+    private String error;
 }
