@@ -49,6 +49,7 @@ class WebClientMockWebServerIntegrationTest {
 
 	@MockBean
 	JwtDecoder jwtDecoder;
+//TODO: Add security that uses jwtDecoder
 
 	@BeforeAll
 	static void beforeAll() throws IOException {
@@ -82,6 +83,7 @@ class WebClientMockWebServerIntegrationTest {
 		ResultActions resultActions = executeRequest("1234");
 		verifyResults(resultActions, 200);
 	}
+//TODO: add 500 scenario with Controller Advice
 
 	private void mockBackendEndpoint(int responseCode, String body) {
 		MockResponse mockResponse = new MockResponse().setResponseCode(responseCode)
