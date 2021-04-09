@@ -1,6 +1,7 @@
 package com.webclient.integrationtest.webclientintegrationtest;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -18,6 +19,17 @@ public class WokeService {
         Mono<WokeResponse> wokeResponseMono = webClient.get()
                 .uri("/api/clock/alarms")
                 .header("Identification-Id", "1234")
+                .retrieve()
+                .bodyToMono(WokeResponse.class);
+
+        return wokeResponseMono.block(Duration.ofSeconds(30));
+    }
+
+    public WokeResponse addAlarm(AlarmRequest requestBody) {
+        Mono<WokeResponse> wokeResponseMono = webClient.post()
+                .uri("/api/clock/alarms")
+                .header("Identification-Id", "1234")
+                .body(BodyInserters.fromValue(requestBody))
                 .retrieve()
                 .bodyToMono(WokeResponse.class);
 
