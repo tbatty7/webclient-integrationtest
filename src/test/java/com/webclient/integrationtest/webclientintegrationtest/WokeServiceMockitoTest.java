@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
 import static org.mockito.ArgumentMatchers.anyString;
 
 @ExtendWith(MockitoExtension.class)
-class WokeServiceTest {
+class WokeServiceMockitoTest {
     @Mock
     private WebClient mockWebClient;
 
