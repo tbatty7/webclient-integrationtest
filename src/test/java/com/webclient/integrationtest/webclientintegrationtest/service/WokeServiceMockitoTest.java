@@ -1,5 +1,7 @@
-package com.webclient.integrationtest.webclientintegrationtest;
+package com.webclient.integrationtest.webclientintegrationtest.service;
 
+import com.webclient.integrationtest.webclientintegrationtest.WokeResponse;
+import com.webclient.integrationtest.webclientintegrationtest.service.WokeService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +11,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 

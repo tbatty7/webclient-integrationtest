@@ -1,5 +1,7 @@
-package com.webclient.integrationtest.webclientintegrationtest;
+package com.webclient.integrationtest.webclientintegrationtest.service;
 
+import com.webclient.integrationtest.webclientintegrationtest.AlarmRequest;
+import com.webclient.integrationtest.webclientintegrationtest.WokeResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
