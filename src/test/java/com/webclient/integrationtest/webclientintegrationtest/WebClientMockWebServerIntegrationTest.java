@@ -1,7 +1,6 @@
 package com.webclient.integrationtest.webclientintegrationtest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import okhttp3.HttpUrl;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.assertj.core.api.Assertions;
@@ -13,18 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.*;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
 
@@ -37,12 +31,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(properties = {"spring.main.allow-bean-definition-overriding=true"})
 @AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("local")
-@ContextConfiguration(classes = {WebclientIntegrationtestApplication.class, WebClientMockWebServerIntegrationTest.TestConfig.class})
+@ContextConfiguration(classes = {WebclientIntegrationtestApplication.class})
 class WebClientMockWebServerIntegrationTest {
 
     public static MockWebServer mockServer;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     private MockMvc mockMvc;
@@ -56,20 +50,25 @@ class WebClientMockWebServerIntegrationTest {
         mockServer.start();
     }
 
+    @DynamicPropertySource
+    static void backendUrlProperties(DynamicPropertyRegistry registry) {
+        registry.add("base-url", () -> mockServer.url("/").toString());
+    }
+
     @AfterAll
     static void afterAll() throws IOException {
         mockServer.shutdown();
     }
 
-    @Configuration
-    public static class TestConfig {
-        @Bean(name = "wokeWebClient")
-        WebClient dmppsWebClient() {
-            HttpUrl url = mockServer.url("/");
-            WebClient webClient = WebClient.create(url.toString());
-            return webClient;
-        }
-    }
+//    @Configuration
+//    public static class TestConfig {
+//        @Bean(name = "wokeWebClient")
+//        WebClient dmppsWebClient() {
+//            HttpUrl url = mockServer.url("/");
+//            WebClient webClient = WebClient.create(url.toString());
+//            return webClient;
+//        }
+//    }
 
     @Test
     void successResponse() throws Exception {
